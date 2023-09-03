@@ -23,12 +23,45 @@ function TableHeader(props) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
-    
-  return (
-    <TableHead>
-        <TableRow>
-            {/* First column checkbox */}
-            {!tableOnly && 
+
+    const populateColumnLabel = () => {
+        return (
+                headerCells.map((headerCell) => ( 
+                    headerCell.id !== "id" &&  
+                        <TableCell
+                            key={headerCell.id}
+                            align={headerCell.numeric ? 'right' : 'left'}
+                            padding={headerCell.disablePadding ? 'none' : 'normal'}
+                            sortDirection={orderBy === headerCell.id ? order : false}
+                        >
+                            <TableSortLabel
+                                active={orderBy === headerCell.id}
+                                direction={orderBy === headerCell.id ? order : 'asc'}
+                                onClick={createSortHandler(headerCell.id)}
+                                sx={{
+                                    color: "#616161",
+                                    '&.Mui-active': {
+                                        color: '#474747',
+                                    }, 
+                                    fontWeight: 'bold', 
+                                }}
+                            >
+                                {headerCell.label}
+                                {orderBy === headerCell.id ? (
+                                    <Box component="span" sx={visuallyHidden}>
+                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    </Box>
+                                ) : null}
+                            </TableSortLabel>
+                        </TableCell>
+                        
+                ))
+        )
+    }
+
+    const populateColumnCheckbox = () => {
+        return (
+            !tableOnly && 
                 <TableCell padding="checkbox">
                     <Checkbox 
                         color="primary"
@@ -40,35 +73,30 @@ function TableHeader(props) {
                         }}
                     />
                 </TableCell>
-            }
             
-            {/* Header Cells */}
-            {
-                headerCells.map((headerCell) => ( 
-                    headerCell.id !== "id" &&  
-                        <TableCell
-                            key={headerCell.id}
-                            align={headerCell.numeric ? 'right' : 'left'}
-                            padding={headerCell.disablePadding ? 'none' : 'normal'}
-                            sortDirection={orderBy === headerCell.id ? order : false}
-                            
-                        >
-                            <TableSortLabel
-                                active={orderBy === headerCell.id}
-                                direction={orderBy === headerCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headerCell.id)}
-                                sx={{color: "#616161" }}
-                            >
-                                {headerCell.label}
-                                {orderBy === headerCell.id ? (
-                                    <Box component="span" sx={visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                    </Box>
-                                ) : null}
-                            </TableSortLabel>
-                        </TableCell>
-                        
-                ))}
+        )
+    }
+
+    const populateColumnEdit = () => {
+         return (
+            !tableOnly && 
+                <TableCell padding="none">
+                </TableCell>
+            
+        )
+    }
+
+
+    
+  return (
+    <TableHead>
+        <TableRow>
+            {populateColumnCheckbox()}
+            {populateColumnLabel()}
+            {populateColumnEdit()}
+           
+
+            
         </TableRow>
     </TableHead>
   )

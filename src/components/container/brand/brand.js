@@ -26,6 +26,11 @@ function Brand() {
     alert('Delete Click')
   }
 
+  const handleEditClick = (brand) => {
+    console.log(brand, 'Edit Click')
+    alert('Edit Click')
+  }
+
   const handleFilterClick = (brand) => { 
     console.log('Filter Click')
     alert('Filter Click')
@@ -55,7 +60,7 @@ function Brand() {
       return;
     }
     setSelected([]);
-}
+  }
 
   return (
     <>
@@ -78,6 +83,7 @@ function Brand() {
         orderBy={orderBy}
         onDeleteClick={handleDeleteClick}
         onFilterClick={handleFilterClick}
+        onEditClick={handleEditClick}
         onRowClick={handleRowClick}
         onSelectAllClick={handleSelectAllClick}
         rowCount={brands.length}
