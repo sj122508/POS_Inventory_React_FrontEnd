@@ -9,7 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 
 function TableBody(props) {
-    const { headerCells, onRowClick, onEditClick, rows, selected, tableOnly } = props;
+    const { headerCells, onRowClick, onEditClick, rows, selected, tableOnly, sortedRows } = props;
 
     const isSelected = (id) => {
         return selected.find(row => row.id === id) !== undefined;

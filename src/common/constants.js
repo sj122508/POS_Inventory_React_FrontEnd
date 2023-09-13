@@ -11,3 +11,5 @@ export const buttonType = {
     delete: 'delete',
     filter: 'filter',
 }
+
+export const rowsPerPageOptions = [10, 20, 30]

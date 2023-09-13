@@ -7,11 +7,12 @@ import { buttonVariant, buttonType} from '../../../common/constants'
 function Brand() {
   const [brands, setBrands] = useState([]); 
   const [selected, setSelected] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
+  const [orderBy, setOrderBy] = useState('name');
+  const [page, setPage] = useState(0);
 
   useEffect (() => {  
-    
     setBrands(rows)
   }, [])
 
@@ -21,13 +22,24 @@ function Brand() {
     alert('Add Click')
   }
 
+  const handleChangePage = (event, newPage) => {
+    console.log('Change Page')
+    alert('Change Page')
+    setPage(newPage);
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value,));
+    setPage(0);
+  }
+
   const handleDeleteClick = (brand) => { 
     console.log('Delete Click')
     alert('Delete Click')
   }
 
   const handleEditClick = (brand) => {
-    console.log(brand, 'Edit Click')
+    console.log(brand,'Edit Click')
     alert('Edit Click')
   }
 
@@ -62,6 +74,13 @@ function Brand() {
     setSelected([]);
   }
 
+  const handleSortClick = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+    console.log(property,'Sort Click')
+  }
+
   return (
     <>
      <Box sx={{ display: 'flex',  m: 1  }}>
@@ -82,11 +101,16 @@ function Brand() {
         order={order}
         orderBy={orderBy}
         onDeleteClick={handleDeleteClick}
-        onFilterClick={handleFilterClick}
         onEditClick={handleEditClick}
+        onFilterClick={handleFilterClick}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
         onRowClick={handleRowClick}
         onSelectAllClick={handleSelectAllClick}
+        onSortClick={handleSortClick}
+        page={page}
         rowCount={brands.length}
+        rowsPerPage={rowsPerPage}
         rows={brands}
         selected={selected}
         tableOnly={false}

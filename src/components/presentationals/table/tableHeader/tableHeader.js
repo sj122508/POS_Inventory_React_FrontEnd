@@ -14,18 +14,18 @@ function TableHeader(props) {
         rowCount, 
         order, 
         orderBy,
-        onRequestSort,
         onSelectAllClick, 
+        onSortHeaderClick,
         tableOnly,
      } = props;
 
 
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
+     const handleSortClick = (headerCellId) => {
+        onSortHeaderClick(headerCellId)
+     }
 
     const populateColumnLabel = () => {
-        return (
+        return (    
                 headerCells.map((headerCell) => ( 
                     headerCell.id !== "id" &&  
                         <TableCell
@@ -37,7 +37,7 @@ function TableHeader(props) {
                             <TableSortLabel
                                 active={orderBy === headerCell.id}
                                 direction={orderBy === headerCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headerCell.id)}
+                                onClick={(e) => handleSortClick(headerCell.id)}
                                 sx={{
                                     color: "#616161",
                                     '&.Mui-active': {
@@ -86,8 +86,6 @@ function TableHeader(props) {
         )
     }
 
-
-    
   return (
     <TableHead>
         <TableRow>
