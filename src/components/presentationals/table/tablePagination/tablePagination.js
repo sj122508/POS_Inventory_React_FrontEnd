@@ -1,11 +1,19 @@
 import React from 'react'
 import Pagination from '@mui/material/TablePagination';
-import {rowsPerPageOptions} from '../../../../common/constants'
+import {rowsPerPageOptions, flexDirections, skeletonSizes, skeletonTypes} from '../../../../common/constants'
+import Skeleton from '../../skeleton/skeleton';
+import Box from '@mui/material/Box';
 
 function TablePagination(props) {
-const {onPageChange, onRowsPerPageChange, rows, rowsPerPage, page,  } = props;
+const {isLoading, onPageChange, onRowsPerPageChange, rows, rowsPerPage, page,  } = props;
 
   return (
+    <>
+    {isLoading ? 
+    <Box  sx={{ pr: 4}}>
+      <Skeleton size={skeletonSizes.medium} type={skeletonTypes.text} flexDirection={flexDirections.rowReverse}/>
+    </Box>
+    :
     <Pagination
           rowsPerPageOptions={rowsPerPageOptions}
           component="div"
@@ -15,6 +23,8 @@ const {onPageChange, onRowsPerPageChange, rows, rowsPerPage, page,  } = props;
           onPageChange={onPageChange}
           onRowsPerPageChange={onRowsPerPageChange}
         />
+  }
+    </>
   )
 }
 

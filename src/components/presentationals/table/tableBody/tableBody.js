@@ -6,21 +6,23 @@ import TableCell from '@mui/material/TableCell';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
-
+import Skeleton from '../../skeleton/skeleton';
+import { skeletonSizes, skeletonTypes } from '../../../../common/constants'
 
 function TableBody(props) {
-    const { headerCells, onRowClick, onEditClick, rows, selected, tableOnly, sortedRows } = props;
+    const { headerCells, isLoading, onRowClick, onEditClick, rows, selected, tableOnly } = props;
 
     const isSelected = (id) => {
         return selected.find(row => row.id === id) !== undefined;
     }
 
     const populateCells = (row) => {
+
         return headerCells.map((cell, index) => {
 
             if (cell.id === "id") return null; // do not display id column
 
-            var rowCellName = Object.keys(row)[index]
+            let rowCellName = Object.keys(row)[index]
 
             return (
                 <TableCell 
@@ -38,7 +40,7 @@ function TableBody(props) {
     const populateCellsCheckbox = (row) => {
         const isItemSelected = isSelected(row.id);
         return (
-             !tableOnly && 
+             !tableOnly &&                 
                 <TableCell padding="checkbox">
                     <Checkbox color="primary"
                         checked={isItemSelected}
@@ -52,6 +54,7 @@ function TableBody(props) {
     }
 
     const populateCellsEdit = (row) => {
+
         return (
             !tableOnly && 
                 <TableCell align="center">
@@ -62,11 +65,29 @@ function TableBody(props) {
         )
     }
 
+    const populateSkeleton = () => {
+        return (
+            <>
+                <TableCell width='60px' ><Skeleton size={skeletonSizes.small} type={skeletonTypes.text} /></TableCell>
+                {
+                    headerCells.map((cell) => {
+
+                    if (cell.id === "id") return null; // do not display id column
+                    
+                    return (<TableCell key={cell}  padding='normal' >
+                        <Skeleton size={skeletonSizes.large} type={skeletonTypes.text} />
+                    </TableCell>)
+                 })
+                }
+                <TableCell width='60px' ><Skeleton size={skeletonSizes.small} type={skeletonTypes.text} /></TableCell>
+            </>
+        )
+    }
+
   return (
     <MUITableBody>
         {rows.map((row, index) => {
             const isItemSelected = isSelected(row.id);
-
             return (
                 <TableRow 
                     hover
@@ -79,10 +100,17 @@ function TableBody(props) {
                     sx={{ cursor: 'pointer' }}
                 >
                    
-                    {populateCellsCheckbox(row)}
-                    {populateCells(row)}
-                    {populateCellsEdit(row)}
-                    
+                   {isLoading ? 
+                    <>
+                        {populateSkeleton()}
+                    </>   
+                    :
+                    <>
+                        {populateCellsCheckbox(row)}
+                        {populateCells(row)}
+                        {populateCellsEdit(row)}
+                    </>
+                }
                 </TableRow>
             )
         })}

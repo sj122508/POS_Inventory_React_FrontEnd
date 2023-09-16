@@ -4,11 +4,14 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import Skeleton from '../../skeleton/skeleton';
 import { visuallyHidden } from '@mui/utils';
+import { skeletonSizes, skeletonTypes } from '../../../../common/constants'
 
 function TableHeader(props) {
     const { 
         headerCells,
+        isLoading,
         label,
         numberSelected, 
         rowCount, 
@@ -25,6 +28,18 @@ function TableHeader(props) {
      }
 
     const populateColumnLabel = () => {
+       
+        // If loading then show skeleton
+         if (isLoading) {
+            return (
+                    headerCells.map((headerCell) => ( 
+                        <TableCell key={headerCell.id} padding={'normal'}>
+                            <Skeleton size={skeletonSizes.large} type={skeletonTypes.text} />
+                        </TableCell>
+                    ))
+            )
+        }
+
         return (    
                 headerCells.map((headerCell) => ( 
                     headerCell.id !== "id" &&  
@@ -54,12 +69,21 @@ function TableHeader(props) {
                                 ) : null}
                             </TableSortLabel>
                         </TableCell>
-                        
                 ))
         )
     }
 
     const populateColumnCheckbox = () => {
+        
+        // If loading then show skeleton
+        if (isLoading) {
+            return (
+                <TableCell width= '60px'  >
+                    <Skeleton size={skeletonSizes.small} type={skeletonTypes.text} />
+                </TableCell>
+            )
+        }
+
         return (
             !tableOnly && 
                 <TableCell padding="checkbox">
@@ -92,9 +116,6 @@ function TableHeader(props) {
             {populateColumnCheckbox()}
             {populateColumnLabel()}
             {populateColumnEdit()}
-           
-
-            
         </TableRow>
     </TableHead>
   )
