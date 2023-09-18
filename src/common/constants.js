@@ -28,6 +28,15 @@ export const skeletonTypes ={
     rectangular: 'rectangular',
 }
 
+export const placements = {
+    top: 'top',
+    bottom: 'bottom',
+    left: 'left',
+    right: 'right',
+    bottomEnd: 'bottom-end',
+    bottomStart: 'bottom-start',    
+}
+
 export const flexDirections = {
     row: 'row',
     column: 'column',

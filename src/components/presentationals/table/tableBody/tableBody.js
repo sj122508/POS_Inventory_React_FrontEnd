@@ -7,7 +7,8 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import Skeleton from '../../skeleton/skeleton';
-import { skeletonSizes, skeletonTypes } from '../../../../common/constants'
+import { skeletonSizes, skeletonTypes, placements } from '../../../../common/constants';
+import Tooltip from '../../tooltip/tooltip'
 
 function TableBody(props) {
     const { headerCells, isLoading, onRowClick, onEditClick, rows, selected, tableOnly } = props;
@@ -25,14 +26,16 @@ function TableBody(props) {
             let rowCellName = Object.keys(row)[index]
 
             return (
+                <Tooltip title={row[rowCellName]} key={row[rowCellName]} placement={cell.numeric ? placements.bottomEnd : placements.bottomStart}>
                 <TableCell 
-                    align= {cell.numeric ? 'right' : 'left'}
+                    align= {cell.numeric ? placements.right : placements.left}
                     key={row[rowCellName]}
                     sx={{color: "#616161" }}
                     >
                         {row[rowCellName]}
                     
                 </TableCell>
+                </Tooltip>
             )
         })
     }

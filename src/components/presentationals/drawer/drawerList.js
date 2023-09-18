@@ -11,6 +11,8 @@ import SnippetFolderIcon from '@mui/icons-material/SnippetFolder';
 import StorageIcon from '@mui/icons-material/Storage';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
+import Tooltip from '../tooltip/tooltip';
+import { placements } from '../../../common/constants';
 
 function DrawerList({items, isDrawerOpen}) {
 
@@ -40,6 +42,7 @@ function DrawerList({items, isDrawerOpen}) {
   return (
     <List>
       {items.map((text) => ( 
+        <Tooltip key={text} title={text} placement={placements.right}>
         <ListItem key={text} disablePadding sx={{ display: 'block', color: "#616161" }}>
             <ListItemButton
                     sx={{
@@ -61,6 +64,7 @@ function DrawerList({items, isDrawerOpen}) {
                     <ListItemText primary={text} sx={{ opacity: isDrawerOpen ? 1 : 0 }} />
             </ListItemButton>
         </ListItem>
+        </Tooltip>
       ))}
     </List>
     
