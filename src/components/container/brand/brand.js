@@ -2,16 +2,22 @@ import React, {useState, useEffect} from 'react'
 import Button from '../../presentationals/button/button'
 import { Box, Stack, Typography } from '@mui/material';
 import Table from '../../presentationals/table/table';
-import { buttonVariant, buttonType} from '../../../common/constants'
+import Skeleton from '../../presentationals/skeleton/skeleton';
+import { buttonVariant, buttonType, flexDirections, skeletonSizes, skeletonTypes} from '../../../common/constants'
 
 function Brand() {
+  const [loading, setLoading] = useState(true)
   const [brands, setBrands] = useState([]); 
   const [selected, setSelected] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
+  const [orderBy, setOrderBy] = useState('name');
+  const [page, setPage] = useState(0);
 
   useEffect (() => {  
-    
+    setTimeout(() => {
+            setLoading(false)
+        }, 5000)
     setBrands(rows)
   }, [])
 
@@ -21,13 +27,24 @@ function Brand() {
     alert('Add Click')
   }
 
+  const handleChangePage = (event, newPage) => {
+    console.log('Change Page')
+    alert('Change Page')
+    setPage(newPage);
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value,));
+    setPage(0);
+  }
+
   const handleDeleteClick = (brand) => { 
     console.log('Delete Click')
     alert('Delete Click')
   }
 
   const handleEditClick = (brand) => {
-    console.log(brand, 'Edit Click')
+    console.log(brand,'Edit Click')
     alert('Edit Click')
   }
 
@@ -62,31 +79,58 @@ function Brand() {
     setSelected([]);
   }
 
+  const handleSortClick = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+    console.log(property,'Sort Click')
+  }
+
+  const pageHeader = () => {
+    return (
+      <Box sx={{ display: 'flex',  m: 1  }}>
+        {loading ? 
+        <>
+          <Skeleton size={skeletonSizes.medium} type={skeletonTypes.text} />
+          <Skeleton size={skeletonSizes.medium} type={skeletonTypes.text} flexDirection={flexDirections.rowReverse}/>
+        </> : 
+        <>
+          <Typography variant="h5" fontWeight="bold" component="div" sx={{ flexGrow: 1, color: "#616161" }}>Manage Brand</Typography>
+          <Stack direction='row' spacing={2}>
+            <Button 
+              text='Add' 
+              type={buttonType.add}
+              variant={buttonVariant.contained}
+              onClick={handleAddClick}
+            />
+          </Stack>
+        </>
+      }
+      </Box>
+    ) 
+  }
+
   return (
     <>
-     <Box sx={{ display: 'flex',  m: 1  }}>
-        <Typography variant="h5" fontWeight="bold" component="div" sx={{ flexGrow: 1, color: "#616161" }}>Manage Brand</Typography>
-        <Stack direction='row' spacing={2}>
-          <Button 
-            text='Add' 
-            type={buttonType.add}
-            variant={buttonVariant.contained}
-            onClick={handleAddClick}
-          />
-        </Stack>
-      </Box>
+     {pageHeader()}
       <Table 
         headerCells={headerCells}
         label="brand"
+        isLoading={loading} 
         numberSelected={selected.length}
         order={order}
         orderBy={orderBy}
         onDeleteClick={handleDeleteClick}
-        onFilterClick={handleFilterClick}
         onEditClick={handleEditClick}
+        onFilterClick={handleFilterClick}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
         onRowClick={handleRowClick}
         onSelectAllClick={handleSelectAllClick}
+        onSortClick={handleSortClick}
+        page={page}
         rowCount={brands.length}
+        rowsPerPage={rowsPerPage}
         rows={brands}
         selected={selected}
         tableOnly={false}
