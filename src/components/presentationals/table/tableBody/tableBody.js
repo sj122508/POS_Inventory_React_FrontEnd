@@ -18,7 +18,6 @@ function TableBody(props) {
     }
 
     const populateCells = (row) => {
-
         return headerCells.map((cell, index) => {
 
             if (cell.id === "id") return null; // do not display id column
@@ -26,10 +25,10 @@ function TableBody(props) {
             let rowCellName = Object.keys(row)[index]
 
             return (
-                <Tooltip title={row[rowCellName]} key={row[rowCellName]} placement={cell.numeric ? placements.bottomEnd : placements.bottomStart}>
+                <Tooltip title={row[rowCellName]} key={rowCellName} placement={cell.numeric ? placements.bottomEnd : placements.bottomStart}>
                 <TableCell 
                     align= {cell.numeric ? placements.right : placements.left}
-                    key={row[rowCellName]}
+                    key={rowCellName}
                     sx={{color: "#616161" }}
                     >
                         {row[rowCellName]}
