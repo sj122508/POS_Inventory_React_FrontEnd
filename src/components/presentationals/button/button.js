@@ -5,7 +5,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { buttonVariant, buttonType } from '../../../common/constants'
 
-function Button({text, disabled, onClick, type, variant, textColor}) {
+function Button({autoFocus, text, disabled, onClick, type, variant, textColor}) {
 
     const buttonIcon = () => {
     
@@ -30,13 +30,12 @@ function Button({text, disabled, onClick, type, variant, textColor}) {
                 onClick={onClick}
                 startIcon={buttonIcon()}
                 aria-label={text}
+                autoFocus={autoFocus}
             >
                 {text}
             </MuiButton>
         )
-    } 
-
-    if (variant === buttonVariant.text) {
+    } else if (variant === buttonVariant.text) {
         return (
             <MuiButton 
                 sx={{borderRadius: '20px', textTransform: 'none', minWidth: '150px', color: textColor ? textColor : "#FFF"}} 
@@ -45,11 +44,26 @@ function Button({text, disabled, onClick, type, variant, textColor}) {
                 onClick={onClick}
                 startIcon={buttonIcon()}
                 aria-label={text}
+                autoFocus={autoFocus}
             >
                 {text}
             </MuiButton>
         )
-    } 
+    } else if (variant === buttonVariant.outlined) {
+        return (
+            <MuiButton 
+                sx={{borderRadius: '20px', textTransform: 'none', minWidth: '150px', color: textColor ? textColor : "#FFF"}} 
+                variant={buttonVariant.outlined}
+                disabled={disabled}
+                onClick={onClick}
+                startIcon={buttonIcon()}
+                aria-label={text}
+                autoFocus={autoFocus}
+            >
+                {text}
+            </MuiButton>
+        )
+    }
   
     return null
 }

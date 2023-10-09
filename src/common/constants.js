@@ -4,6 +4,7 @@ export const sideBardItems = ['Dashboard', 'Manage Sales', 'Manage Product', 'Ma
 export const buttonVariant = {
     contained: 'contained',
     text: 'text',
+    outlined: 'outlined',
 }
 
 export const buttonType = {
