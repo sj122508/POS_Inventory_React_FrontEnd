@@ -3,10 +3,11 @@ import Button from '../../presentationals/button/button'
 import { Box, Stack, Typography } from '@mui/material';
 import Table from '../../presentationals/table/table';
 import Skeleton from '../../presentationals/skeleton/skeleton';
-import { buttonVariant, buttonType, flexDirections, skeletonSizes, skeletonTypes} from '../../../common/constants'
-import Modal from '../../presentationals/modal/modal';
+import { buttonVariant, buttonType, flexDirections, skeletonSizes, skeletonTypes} from '../../../common/constants';
 import AddBrand from './Add/addBrand';
 import EditBrand from './Edit/editBrand';
+import DeleteBrand from './Delete/deleteBrand';
+import FilterBrand from './Filter/filterBrand';
 
 function Brand() {
   const [loading, setLoading] = useState(true)
@@ -18,6 +19,7 @@ function Brand() {
   const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openFilterModal, setOpenFilterModal] = useState(false);
   
@@ -38,7 +40,7 @@ function Brand() {
     setOpenAddModal(false);
   }
 
-  const handleSubmit = (addBrand) => {
+  const handleAddBrand = (addBrand) => {
     setOpenAddModal(false);
   }
 
@@ -54,8 +56,15 @@ function Brand() {
   }
 
   const handleDeleteClick = (deleteBrand) => { 
-    console.log('Delete Click')
-    alert('Delete Click')
+    setOpenDeleteAlert(true);
+  }
+
+  const handleCloseDeleteAlert = () => {
+    setOpenDeleteAlert(false);
+  }
+
+  const handleDeleteBrand = (deleteBrand) => {
+    setOpenDeleteAlert(false);
   }
 
   const handleEditClick = (editBrand) => {
@@ -67,7 +76,7 @@ function Brand() {
     setOpenEditModal(false);
   }
 
-  const handleSaveEdit = (editBrand) => {
+  const handleEditBrand = (editBrand) => {
     setOpenEditModal(false);
   }
 
@@ -79,8 +88,11 @@ function Brand() {
     setOpenFilterModal(false);
   }
 
+  const handleFilterBrand = (filterBrand) => {
+    setOpenFilterModal(false);
+  }
+
   const handleRowClick = (event, id) => {
-    console.log(id, 'ididididid')
     let modifiedSelectedBrands = []
 
     if (event.target.checked){
@@ -162,17 +174,11 @@ function Brand() {
         tableOnly={false}
         tableTitle="Brand List"
       />
-      <AddBrand open={openAddModal} handleClose={handleCloseAddModal} handleSubmit={handleSubmit}/>
 
-      <EditBrand open={openEditModal} handleClose={handleCloseEditModal} handleSaveEdit={handleSaveEdit} brand={brand}/>
-
-      <Modal open={openFilterModal} title="Filter Brand" buttonLabel="Apply Filter" handleClose={handleCloseFilterModal}>
-        <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-      </Modal>
+      <AddBrand open={openAddModal} handleClose={handleCloseAddModal} handleSubmit={handleAddBrand}/>
+      <EditBrand open={openEditModal} handleClose={handleCloseEditModal} handleSubmit={handleEditBrand} brand={brand}/>
+      <FilterBrand open={openFilterModal} handleClose={handleCloseFilterModal} handleFilter={handleFilterBrand}/>
+      <DeleteBrand open={openDeleteAlert} handleClose={handleCloseDeleteAlert} handleSubmit={handleDeleteBrand}/>
     </>
    
   )

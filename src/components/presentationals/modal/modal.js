@@ -47,9 +47,17 @@ function Modal({open, handleClose, handleOk, title, buttonLabel, children}) {
         </DialogContent>
         <DialogActions>
           <Button 
+              text='Close'
+              variant={buttonVariant.outlined}
+              onClick={handleClose}
+              textColor='#1976d2'
+            />
+
+          <Button 
               text={buttonLabel}
               variant={buttonVariant.contained}
               onClick={handleOk}
+              autoFocus
             />
         </DialogActions>
       </BootstrapDialog>
