@@ -4,15 +4,23 @@ import { Box, Stack, Typography } from '@mui/material';
 import Table from '../../presentationals/table/table';
 import Skeleton from '../../presentationals/skeleton/skeleton';
 import { buttonVariant, buttonType, flexDirections, skeletonSizes, skeletonTypes} from '../../../common/constants'
+import Modal from '../../presentationals/modal/modal';
+import AddBrand from './Add/addBrand';
+import EditBrand from './Edit/editBrand';
 
 function Brand() {
   const [loading, setLoading] = useState(true)
+  const [brand, setBrand] = useState({})
   const [brands, setBrands] = useState([]); 
   const [selected, setSelected] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openFilterModal, setOpenFilterModal] = useState(false);
+  
 
   useEffect (() => {  
     setTimeout(() => {
@@ -22,9 +30,16 @@ function Brand() {
   }, [])
 
 
-  const handleAddClick = (brand) => { 
-    console.log('Add Click')
-    alert('Add Click')
+  const handleAddClick = (addBrand) => { 
+    setOpenAddModal(true);
+  }
+
+  const handleCloseAddModal = () => {
+    setOpenAddModal(false);
+  }
+
+  const handleSubmit = (addBrand) => {
+    setOpenAddModal(false);
   }
 
   const handleChangePage = (event, newPage) => {
@@ -38,19 +53,30 @@ function Brand() {
     setPage(0);
   }
 
-  const handleDeleteClick = (brand) => { 
+  const handleDeleteClick = (deleteBrand) => { 
     console.log('Delete Click')
     alert('Delete Click')
   }
 
-  const handleEditClick = (brand) => {
-    console.log(brand,'Edit Click')
-    alert('Edit Click')
+  const handleEditClick = (editBrand) => {
+    setBrand(editBrand);
+    setOpenEditModal(true);
   }
 
-  const handleFilterClick = (brand) => { 
-    console.log('Filter Click')
-    alert('Filter Click')
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+  }
+
+  const handleSaveEdit = (editBrand) => {
+    setOpenEditModal(false);
+  }
+
+  const handleFilterClick = (filterBrand) => { 
+    setOpenFilterModal(true);
+  }
+
+  const handleCloseFilterModal = () => {
+    setOpenFilterModal(false);
   }
 
   const handleRowClick = (event, id) => {
@@ -136,6 +162,17 @@ function Brand() {
         tableOnly={false}
         tableTitle="Brand List"
       />
+      <AddBrand open={openAddModal} handleClose={handleCloseAddModal} handleSubmit={handleSubmit}/>
+
+      <EditBrand open={openEditModal} handleClose={handleCloseEditModal} handleSaveEdit={handleSaveEdit} brand={brand}/>
+
+      <Modal open={openFilterModal} title="Filter Brand" buttonLabel="Apply Filter" handleClose={handleCloseFilterModal}>
+        <Typography gutterBottom>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+            consectetur ac, vestibulum at eros.
+          </Typography>
+      </Modal>
     </>
    
   )
@@ -144,31 +181,23 @@ function Brand() {
 export default Brand
 
 
-function createData(id, name, calories, fat, carbs, protein) {
+function createData(id, code, name, createdBy, createdDate, updatedBy, updatedDate) {
   return {
-    id,
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    id, code, name, createdBy, createdDate, updatedBy, updatedDate
   };
 }
 
 const rows = [
-  createData('1','Cupcake', 305, 3.7, 67, 4.3),
-  createData('2','Donut', 452, 25.0, 51, 4.9),
-  createData('3','Eclair', 262, 16.0, 24, 6.0),
-  createData('4','Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('5','Gingerbread', 356, 16.0, 49, 3.9),
-  createData('6','Honeycomb', 408, 3.2, 87, 6.5),
-  createData('7','Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('8','Jelly Bean', 375, 0, 94, 1),
-  createData('9','KitKat', 518, 26.0, 65, 7.0),
-  createData('10','Lollipop', 392, 0.2, 98, 0),
-  createData('11','Marshmallow', 318, 0, 81, 2.0),
-  createData('12','Nougat', 360, 19.0, 9, 37.0),
-  createData('13','Oreo', 437, 18.0, 63, 4.0),
+  createData('1','SAM', 'Samsung', 'James', 'October 6, 2023 10:56AM', 'James', 'October 6, 2023 10:56AM'),
+  createData('1','APL', 'Apple', 'James', 'October 5, 2023 10:56AM', 'James', 'October 5, 2023 10:56AM'),
+  createData('1','NOK', 'Nokia', 'James', 'October 1, 2023 10:56AM', 'James', 'October 1, 2023 10:56AM'),
+  createData('1','SON', 'Sony', 'James', 'October 6, 2023 10:56AM', 'James', 'October 6, 2023 10:56AM'),
+  createData('1','PAN', 'Panasonic', 'James', 'October 2, 2023 10:56AM', 'James', 'October 2, 2023 10:56AM'),
+  createData('1','SHA', 'Sharp', 'James', 'October 5, 2023 10:56AM', 'James', 'October 5, 2023 10:56AM'),
+  createData('1','PHI', 'Philips', 'James', 'October 6, 2023 10:56AM', 'James', 'October 6, 2023 10:56AM'),
+  createData('1','XIA', 'Xiaomi', 'James', 'October 2, 2023 10:56AM', 'James', 'October 2, 2023 10:56AM'),
+  createData('1','HUA', 'Huawei', 'James', 'October 6, 2023 10:56AM', 'James', 'October 6, 2023 10:56AM'),
+  createData('1','CAN', 'Canon', 'James', 'October 3, 2023 10:56AM', 'James', 'October 3, 2023 10:56AM'),
 ];
 
 
@@ -177,33 +206,39 @@ const headerCells = [
     id: 'id',
   },
   {
-    id: 'name',
+    id: 'brandCode',
     numeric: false,
     disablePadding: true,
-    label: 'Dessert (100g serving)',
+    label: 'Brand Code',
   },
   {
-    id: 'calories',
-    numeric: true,
-    disablePadding: false,
-    label: 'Calories',
+    id: 'brandName',
+    numeric: false,
+    disablePadding: true,
+    label: 'Brand Name',
   },
   {
-    id: 'fat',
-    numeric: true,
-    disablePadding: false,
-    label: 'Fat (g)',
+    id: 'createdBy',
+    numeric: false,
+    disablePadding: true,
+    label: 'Created By',
   },
   {
-    id: 'carbs',
-    numeric: true,
+    id: 'createdDate',
+    numeric: false,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'Created Date',
   },
   {
-    id: 'protein',
-    numeric: true,
+    id: 'updatedBy',
+    numeric: false,
+    disablePadding: true,
+    label: 'Updated By',
+  },
+  {
+    id: 'updatedDate',
+    numeric: false,
     disablePadding: false,
-    label: 'Protein (g)',
+    label: 'Updated Date',
   },
 ];
